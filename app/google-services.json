@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "701900848414",
+    "project_id": "messenger-e172c",
+    "storage_bucket": "messenger-e172c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701900848414:android:ee0261d6bb12cfd7e89d0f",
+        "android_client_info": {
+          "package_name": "com.github.gunin_igor75.messenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701900848414-c78cjiljjgrk527hkjeueo78lrclfbr1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDV4_BwEHXaH3i8IH1diJpBwFViALmEhVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "701900848414-c78cjiljjgrk527hkjeueo78lrclfbr1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
