@@ -1,5 +1,6 @@
 package com.github.gunin_igor75.messenger;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.github.gunin_igor75.messenger.dto.User;
+import com.github.gunin_igor75.messenger.dto.UserDto;
 import com.github.gunin_igor75.messenger.view_model.RegistrationViewModel;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -33,38 +34,51 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         init();
+        observeViewModel();
 
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User userDto = new User();
-                userDto.setEmail(editTextEmailRegistration.getText().toString().trim());
-                userDto.setName(editTextNameRegistration.getText().toString().trim());
-                userDto.setLastname(editTextLastNameRegistration.getText().toString().trim());
-                userDto.setPassword(editTextPasswordRegistration.getText().toString().trim());
-                userDto.setAge(Integer.parseInt(editTextAgeRegistration.getText().toString().trim()));
+                UserDto userDto = new UserDto();
+                userDto.setEmail(getStringFormat(editTextEmailRegistration));
+                userDto.setName(getStringFormat(editTextNameRegistration));
+                userDto.setLastname(getStringFormat(editTextLastNameRegistration));
+                userDto.setPassword(getStringFormat(editTextPasswordRegistration));
+                userDto.setAge(Integer.parseInt(getStringFormat(editTextAgeRegistration)));
                 viewModel.register(userDto);
-
-                viewModel.getUser().observe(RegistrationActivity.this, new Observer<FirebaseUser>() {
-                    @Override
-                    public void onChanged(FirebaseUser user) {
-                        Intent intent = UserActivity.newIntent(RegistrationActivity.this, user);
-                        startActivity(intent);
-                    }
-                });
-
-                viewModel.getErrorMessage().observe(RegistrationActivity.this, new Observer<String>() {
-                    @Override
-                    public void onChanged(String message) {
-                        Toast.makeText(
-                                RegistrationActivity.this,
-                                message,
-                                Toast.LENGTH_SHORT
-                        ).show();
-                    }
-                });
             }
         });
+    }
+
+    private void observeViewModel() {
+        viewModel.getFirebaseUserMutableLiveData().observe(RegistrationActivity.this, new Observer<FirebaseUser>() {
+            @Override
+            public void onChanged(FirebaseUser user) {
+                if (user != null) {
+                    Intent intent = UserActivity.newIntent(RegistrationActivity.this);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+
+        viewModel.getErrorMessage().observe(RegistrationActivity.this, new Observer<String>() {
+            @Override
+            public void onChanged(String message) {
+                if (message != null) {
+                    Toast.makeText(
+                            RegistrationActivity.this,
+                            message,
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+            }
+        });
+    }
+
+    @NonNull
+    private String getStringFormat(EditText editText) {
+        return editText.getText().toString().trim();
     }
 
     public static Intent newIntent(Context context) {

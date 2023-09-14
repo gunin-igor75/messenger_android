@@ -45,7 +45,7 @@
             android:id="@+id/editTextNameRegistration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:inputType="textCapWords"
             android:hint="@string/name_registration"
             android:layout_margin="8dp"
             android:autofillHints="name" />
@@ -54,7 +54,7 @@
             android:id="@+id/editTextLastNameRegistration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:inputType="textCapWords"
             android:hint="@string/last_name_registration"
             android:layout_margin="8dp"
             android:autofillHints="name" />

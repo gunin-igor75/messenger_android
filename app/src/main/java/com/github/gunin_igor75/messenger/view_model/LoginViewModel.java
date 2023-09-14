@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.github.gunin_igor75.messenger.dto.User;
+import com.github.gunin_igor75.messenger.dto.UserDto;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainViewModel extends ViewModel {
+public class LoginViewModel extends ViewModel {
     private final FirebaseAuth auth;
 
     private static final String TAG = "MainViewModel";
@@ -24,16 +24,18 @@ public class MainViewModel extends ViewModel {
         return errorMessage;
     }
 
-    public MainViewModel() {
+    public LoginViewModel() {
         auth = FirebaseAuth.getInstance();
+        auth.addAuthStateListener(firebaseAuth -> {
+            FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+            if (currentUser != null) {
+                user.setValue(currentUser);
+            }
+        });
     }
 
-    public void login(User userDto) {
+    public void login(UserDto userDto) {
         auth.signInWithEmailAndPassword(userDto.getEmail(), userDto.getPassword())
-                .addOnSuccessListener(authResult -> {
-                    FirebaseUser currentUser = auth.getCurrentUser();
-                    user.setValue(currentUser);
-                })
                 .addOnFailureListener(ex -> errorMessage.setValue(ex.getMessage()));
     }
 }

@@ -1,10 +1,9 @@
 package com.github.gunin_igor75.messenger.dto;
 
-public class User {
+public class UserDto {
     private String name;
     private String lastname;
     private String password;
-
     private String email;
     private int age;
 
