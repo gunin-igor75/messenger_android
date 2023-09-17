@@ -9,14 +9,14 @@ public class User {
     private String lastname;
 
     private int age;
-    private boolean isOnline;
+    private boolean online;
 
-    public User(String id, String name, String lastname, int age, boolean isOnline) {
+    public User(String id, String name, String lastname, int age, boolean online) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.age = age;
-        this.isOnline = isOnline;
+        this.online = online;
     }
 
     public User() {
@@ -39,7 +39,7 @@ public class User {
     }
 
     public boolean isOnline() {
-        return isOnline;
+        return online;
     }
 
     public void setId(String id) {
@@ -59,7 +59,7 @@ public class User {
     }
 
     public void setOnline(boolean online) {
-        isOnline = online;
+        this.online = online;
     }
 
     public static User userDtoToUser(UserDto userDto) {

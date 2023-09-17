@@ -13,12 +13,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.gunin_igor75.messenger.adapter.UsersAdapter;
+import com.github.gunin_igor75.messenger.pojo.User;
 import com.github.gunin_igor75.messenger.view_model.UserViewModel;
 import com.google.firebase.auth.FirebaseUser;
 
 public class UserActivity extends AppCompatActivity {
 
     private UserViewModel viewModel;
+
+    private final static String CURRENT_USER_ID = "currentUserId";
     private RecyclerView recyclerViewUsers;
     private UsersAdapter usersAdapter;
 
@@ -27,13 +30,24 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         init();
-
-
         observeViewModel();
+        String currentUserId = getIntent().getStringExtra(CURRENT_USER_ID);
+        usersAdapter.setUserClickListener(new UsersAdapter.OnUserClickListener() {
+            @Override
+            public void onUserClick(User user) {
+                Intent intent = ChatActivity.newIntent(
+                        UserActivity.this,
+                        currentUserId,
+                        user.getId());
+                startActivity(intent);
+            }
+        });
     }
 
-    public static Intent newIntent(Context context) {
-        return new Intent(context, UserActivity.class);
+    public static Intent newIntent(Context context, String idSender) {
+        Intent intent = new Intent(context, UserActivity.class);
+        intent.putExtra(CURRENT_USER_ID, idSender);
+        return intent;
     }
 
     @Override
@@ -48,6 +62,18 @@ public class UserActivity extends AppCompatActivity {
             viewModel.logout();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        viewModel.setStatusOnline(true);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        viewModel.setStatusOnline(false);
     }
 
     private void init() {

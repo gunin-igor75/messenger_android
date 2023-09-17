@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UserViewModel extends ViewModel {
     private FirebaseAuth auth;
@@ -48,7 +49,13 @@ public class UserViewModel extends ViewModel {
 
 
     public void logout() {
+        setStatusOnline(false);
         auth.signOut();
+    }
+
+    public void setStatusOnline(boolean isOnline) {
+        String userId = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+        myRef.child(userId).child("isOnline").setValue(isOnline);
     }
 
     private void getUsersFromDb() {

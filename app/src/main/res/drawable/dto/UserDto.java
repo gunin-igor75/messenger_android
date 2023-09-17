@@ -1,4 +1,4 @@
-package com.github.gunin_igor75.messenger.dto;
+package drawable.dto;
 
 public class UserDto {
     private String name;

@@ -17,4 +17,6 @@
     <string name="reset_password">RESET PASSWORD</string>
     <string name="logout">Logout</string>
     <string name="reset_password_link">the reset password  link has been successfully sent</string>
+    <string name="more_text">more more more more more more more more more more more more more more more more more more</string>
+    <string name="type_your_message">Type your message</string>
 </resources>
